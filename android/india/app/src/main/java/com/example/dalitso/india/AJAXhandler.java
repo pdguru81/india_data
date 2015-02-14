@@ -58,7 +58,7 @@ public class AJAXhandler {
                     "http://dalitsobanda.com/node/asha/login";
             builtUri = Uri.parse(BASE_URL).buildUpon()
                     .appendQueryParameter("password", password)
-                    .appendQueryParameter("phone", String.valueOf(phonenumber))
+                    .appendQueryParameter("phone", phonenumber +"")
                     .build();
 
         }

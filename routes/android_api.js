@@ -18,9 +18,9 @@ function isAuthenticated(req, res, next) {
 
 // Login
 router.post('/login', function(req, res){
-		console.log("login in with phone" +  req.params.phone)
-		Asha.findOne({phone: req.params.phone}, function(err, asha){
-			if (asha && (req.params.password === asha.password)){
+		console.log("login in with phone" +  req.param('phone'))
+		Asha.findOne({phone: req.param('phone')}, function(err, asha){
+			if (asha && (req.param('password') === asha.password)){
 				req.session.user = asha;
 				res.status(200).json({success: true});
 			} else {
