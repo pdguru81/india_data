@@ -57,17 +57,4 @@ router.get('/mothers/:id', isAuthenticated, function(req, res){
 	});
 });
 
-router.post('/signup', function(req, res){
-	Asha.findOne({phone: phone}, function(err, asha){
-		if (asha){
-			res.status(500).json({success: false, error: "Asha already exists!"});
-		} else if (err) {
-			res.status(500).json({success: false, error: "Database error"});
-		} else {
-			res.status(200).json({success:true});
-		} 
-	})
-})
-
-
 module.exports = router;
