@@ -20,7 +20,7 @@ import java.net.URL;
  * Created by dalitso on 2/14/15.
  */
 public class AJAXhandler {
-    public void newPatient (View view){
+    public void createMothers (View view){
         TextView Vname = (TextView) view.findViewById(R.id.newPatientName);
         TextView Vnumber = (TextView) view.findViewById(R.id.newPatientNumber);
         String name = (String) Vname.getText();
@@ -68,9 +68,8 @@ public class AJAXhandler {
             e.printStackTrace();
         }
         final String BASE_URL =
-                "http://dalitsobanda.com/node";
+                "http://dalitsobanda.com/node/ashas";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter("param", "value")
                 .appendQueryParameter("password", password);
                 .appendQueryParameter("phone",phonenumber);
                 .appendQueryParameter("hospital",hospital);
@@ -81,28 +80,58 @@ public class AJAXhandler {
     }
 
 
-     public void createRecord (int mother_id, String asha_id, String mother_status, Strig baby_status){
+     public void createRecord (int mother_id){
 
         JSONObject data  = new JSONObject();
         try {
-            data.put("password", password);
-            data.put("phone",phonenumber);
-            data.put("hospital",hospital);
-            data.put("name",name);
+            
         } catch (JSONException e) {
             e.printStackTrace();
         }
         final String BASE_URL =
-                "http://dalitsobanda.com/node";
+                "http://dalitsobanda.com/node//asha/records";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter("asha", asha_id)
-                .appendQueryParameter("mother_status",mother_status);
-                .appendQueryParameter("baby_status",baby_status);
-                .appendQueryParameter("name",name);
+                .appendQueryParameter("mother",mother_id);
                 .build();
 
         sendJSONtoServer(data, builtUri);
     }
+
+
+
+    public void getMothers (){
+
+        JSONObject data  = new JSONObject();
+        try {
+           
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String BASE_URL =
+                "http://dalitsobanda.com/node//mothers";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .build();
+
+        sendJSONtoServer(data, builtUri);
+    }
+
+
+    public void getMotherRecords (int mother_id){
+
+        JSONObject data  = new JSONObject();
+        try {
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String BASE_URL =
+                "http://dalitsobanda.com/node//mothers";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter("mother", mother_id)
+                .build();
+
+        sendJSONtoServer(data, builtUri);
+    }
+
 
 
     public void sendJSONtoServer(JSONObject data , final Uri builtUri){
