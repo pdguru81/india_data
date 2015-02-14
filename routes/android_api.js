@@ -34,7 +34,7 @@ router.get('/logout', function(req,res){
 // Get records
 router.get('/mothers', isAuthenticated, function(req, res){
 		Asha.findOne({phone: req.session.user.phone}, function(err, asha){
-				Mother.find({_asha: asha._id}, function(err, mothers){
+				Mother.find({asha: asha._id}, function(err, mothers){
 					if (err){
 						res.status(500).json({success: false, error: "Could not retrieve list of mothers"});
 					} else {
