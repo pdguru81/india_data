@@ -11,7 +11,6 @@ var ashaSchema = mongoose.Schema({
 	phone: String,
 	password_hash: String,
 	hospital: String
-
 });
 
 var asha = mongoose.model('asha',ashaSchema);
