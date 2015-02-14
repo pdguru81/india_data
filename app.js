@@ -5,9 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var android_api = require('./routes/android_api');
@@ -18,12 +15,24 @@ var mongoStore = require('connect-mongo')(session);
 
 var app = express();
 
+var connection_string = 'mongodb://localhost/udapradesh_pregnancy_data';
 
-mongoose.connect('mongodb://localhost/udapradesh_pregnancy_data');
+if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+        connection_string = 'mongodb://' + 
+        process.env.OPENSHIFT_MONGODB_DB_USERNAME + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PASSWORD + '@' +
+        process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+        process.env.OPENSHIFT_MONGODB_DB_PORT + '/udapradesh_pregnancy_data';
+}
+
+mongoose.connect(connection_string);
+
 var db = mongoose.connection;
+
 db.on('error',function(){
     console.log("Connection to database failed");
 });
+
 db.on('open',function(){
     console.log("Successfully connected!");
 })
