@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
-            android:text="@string/newPatientName"
+            android:hint="@string/newPatientName"
             android:ems="10"
             android:id="@+id/newPatientName"
             android:layout_below="@+id/newPatientName"
@@ -33,7 +33,7 @@
             android:ems="10"
             android:id="@+id/newPatientNumber"
             android:layout_gravity="center_horizontal"
-            android:text="@string/newPatientNumber" />
+            android:hint="@string/newPatientNumber" />
 
         <EditText
             android:layout_width="match_parent"
@@ -42,12 +42,12 @@
             android:ems="10"
             android:id="@+id/expectedDelivery"
             android:layout_gravity="center_horizontal"
-            android:text="@string/expectedDelivery" />
+            android:hint="@string/expectedDelivery" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/newPatientbtn"
+            android:hint="@string/newPatientbtn"
             android:id="@+id/newPatientBtn" />
     </LinearLayout>
 

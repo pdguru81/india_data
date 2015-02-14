@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -175,7 +176,7 @@ public class HomeActivity extends ActionBarActivity
 
             View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-            if (getArguments().getInt(ARG_SECTION_NUMBER) == 2){
+            if (getArguments().getInt(ARG_SECTION_NUMBER) == 2 || getArguments().getInt(ARG_SECTION_NUMBER) == 1 ){
                 rootView = inflater.inflate(R.layout.fragment_item, container, false);
                 Context context = getApplicationContext();
                 CharSequence text = "selected section 2 patient";
@@ -197,25 +198,34 @@ public class HomeActivity extends ActionBarActivity
                 final ArrayAdapter<String> arrayAdapter =
                         new ArrayAdapter<String>(HomeActivity.this,android.R.layout.simple_list_item_1, patientList);
 
-
-                //
-//    `           HttpResponse response = null;
-//                try {
-//                    HttpClient client = new DefaultHttpClient();
-//                    HttpGet request = new HttpGet();
-//                    request.setURI(new URI("https://www.googleapis.com/shopping/search/v1/public/products/?key={my_key}&country=&q=t-shirts&alt=json&rankByrelevancy="));
-//                    response = client.execute(request);
-//                } catch (URISyntaxException e) {
-//                    e.printStackTrace();
-//                } catch (ClientProtocolException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                } catch (IOException e) {
-//                    // TODO Auto-generated catch block
-//                    e.printStackTrace();
-//                }
                 // Set The Adapter
                 mPatientListView.setAdapter(arrayAdapter);
+                if (getArguments().getInt(ARG_SECTION_NUMBER) == 2 ) {
+                    mPatientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(HomeActivity.this, CheckActivity.class);
+                            //                EditText editText = (EditText) findViewById(R.id.edit_message);
+                            //                String message = editText.getText().toString();
+                            //                intent.putExtra(EXTRA_MESSAGE, message);
+                            intent.putExtra("patientName", patientList.get(position));
+                            startActivity(intent);
+                        }
+                    });
+                }else{
+                    mPatientListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Intent intent = new Intent(HomeActivity.this, PatientHistory.class);
+                            //                EditText editText = (EditText) findViewById(R.id.edit_message);
+                            //                String message = editText.getText().toString();
+                            //                intent.putExtra(EXTRA_MESSAGE, message);
+                            intent.putExtra("patientName", patientList.get(position));
+                            startActivity(intent);
+                        }
+                    });
+                }
+
                 new AsyncTask<Void, Void, String>() {
 
                     @Override
@@ -238,7 +248,7 @@ public class HomeActivity extends ActionBarActivity
                             // Possible parameters are avaiable at OWM's forecast API page, at
                             // http://openweathermap.org/API#forecast
                             final String FORECAST_BASE_URL =
-                                    "http://api.openweathermap.org/data/2.5/forecast/daily?";
+                                    "http://dalitsobanda.com/node?";
                             final String QUERY_PARAM = "q";
                             final String FORMAT_PARAM = "mode";
                             final String UNITS_PARAM = "units";

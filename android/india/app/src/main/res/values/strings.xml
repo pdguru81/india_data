@@ -17,5 +17,6 @@
     <string name="newPatientbtn">Create new patient</string>
     <string name="expectedDelivery">Expected delivery date</string>
     <string name="title_activity_check">CheckActivity</string>
+    <string name="title_activity_patient_history">PatientHistory</string>
 
 </resources>

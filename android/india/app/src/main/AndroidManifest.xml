@@ -43,6 +43,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.dalitso.india.HomeActivity" />
         </activity>
+        <activity
+            android:name=".PatientHistory"
+            android:label="@string/title_activity_patient_history"
+            android:parentActivityName=".HomeActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.dalitso.india.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

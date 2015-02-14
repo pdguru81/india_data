@@ -10,35 +10,26 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
-import android.widget.TextView;
 
 
-public class CheckActivity extends ActionBarActivity {
-    private String patientName;
+public class PatientHistory extends ActionBarActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check);
+        setContentView(R.layout.activity_patient_history);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
                     .commit();
         }
-        Bundle extras = getIntent().getExtras();
-
-        if(extras == null) {
-            patientName= null;
-        } else {
-            patientName= extras.getString("patientName");
-        }
-        ((TextView) findViewById(R.id.CheckTittle)).setText(extras.getString("patientName"));
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_check, menu);
+        getMenuInflater().inflate(R.menu.menu_patient_history, menu);
         return true;
     }
 
@@ -68,8 +59,8 @@ public class CheckActivity extends ActionBarActivity {
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_check, container, false);
-
+            View rootView = inflater.inflate(R.layout.fragment_patient_history, container, false);
+            // get data
             return rootView;
         }
     }

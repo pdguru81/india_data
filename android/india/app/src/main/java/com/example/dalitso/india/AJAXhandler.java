@@ -6,6 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +25,17 @@ public class AJAXhandler {
         TextView Vnumber = (TextView) view.findViewById(R.id.newPatientNumber);
         String name = (String) Vname.getText();
         String number = (String) Vnumber.getText();
+
+        JSONObject data  = new JSONObject();
+        try {
+            data.put("name", name);
+            data.put("number", number);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
 
     public void sendJSONtoServer(String data){
@@ -39,9 +53,9 @@ public class AJAXhandler {
                 String result = null;
 
                 try {
-                    final String FORECAST_BASE_URL =
+                    final String BASE_URL =
                             "http://api.openweathermap.org/data/2.5/forecast/daily?";
-                    Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
+                    Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                             .appendQueryParameter("param", "value")
                             .build();
 
@@ -63,9 +77,6 @@ public class AJAXhandler {
 
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        // Since it's JSON, adding a newline isn't necessary (it won't affect parsing)
-                        // But it does make debugging a *lot* easier if you print out the completed
-                        // buffer for debugging.
                         buffer.append(line + "\n");
                     }
 
