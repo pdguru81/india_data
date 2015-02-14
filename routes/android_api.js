@@ -12,7 +12,14 @@ function isAuthenticated(req, res, next) {
 };
 
 router.post('/login', function(req, res){
-		
+		Asha.findOne({phone: }, function(err, asha){
+			if (asha && (password_hash === asha.password_hash)){
+				req.session.user = user;
+				res.status(200).json({success: true});
+			} else {
+				res.status(500).json({success:false, error: "Login failed. Please check your phone and/or password"})
+			}
+		});
 });
 
 

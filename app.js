@@ -29,12 +29,12 @@ mongoose.connect(connection_string);
 
 var db = mongoose.connection;
 
-db.on('error',function(){
-    console.log("Connection to database failed");
+db.on('error',function(msg){
+    console.log("Mongoose connection error %s", msg);
 });
 
 db.on('open',function(){
-    console.log("Successfully connected!");
+    console.log("Mongoose connection established!");
 })
 
 // view engine setup
@@ -42,13 +42,11 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 
-
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(cookieParser());
 app.use(session({
     secret: 'indian_asha',
