@@ -13,6 +13,6 @@ var ashaSchema = mongoose.Schema({
 	hospital: String
 });
 
-var asha = mongoose.model('asha',ashaSchema);
+var asha = mongoose.model('asha', ashaSchema);
 
 module.exports = asha;
