@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var controller = require('./../controller/logic');
 
 /* GET home page. */
 router.get('/', function(req, res) {
@@ -7,3 +8,11 @@ router.get('/', function(req, res) {
 });
 
 module.exports = router;
+
+
+
+router.post('/ashas', function(req,res){
+	console.log('the call came here!');
+	controller.ashaSignUP(req.body.name,req.body.phone, req.body.hospital, res);
+
+});
