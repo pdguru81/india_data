@@ -10,7 +10,6 @@ var motherSchema = mongoose.Schema({
 	asha: {type : mongoose.Schema.Types.ObjectId, ref: 'Asha'},
 	name: String,
 	phone: String,
-	emergency_contact: String,
 	emergency_contact_phone: String
 });
 

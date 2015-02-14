@@ -3,6 +3,8 @@ var router = express.Router();
 var Asha = require('./../model/asha');
 var Mother = require('./../model/mother');
 var Record = require('./../model/record');
+var controller = require('./../controller/logic');
+
 
 
 
@@ -55,6 +57,14 @@ router.get('/mothers/:id', isAuthenticated, function(req, res){
 			res.status(200).json({success: true, records: mother_records});
 		}
 	});
+});
+
+
+
+// Get records
+//router.post('/mothers', isAuthenticated, function(req, res){
+router.post('/mothers', function(req, res){
+		controller.createMothers(req.body.name,req.body.phone,req.body.emergency_contact_phone,res);
 });
 
 module.exports = router;
