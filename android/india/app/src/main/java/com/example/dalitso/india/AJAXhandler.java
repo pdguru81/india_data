@@ -33,12 +33,27 @@ public class AJAXhandler {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+    public void login (int number, String password){
 
+        JSONObject data  = new JSONObject();
+        try {
+            data.put("password", password);
+            data.put("number", number);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String BASE_URL =
+                "http://dalitsobanda.com/node";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter("param", "value")
+                .build();
 
-
+        sendJSONtoServer(data, builtUri);
     }
 
-    public void sendJSONtoServer(String data){
+
+    public void sendJSONtoServer(JSONObject data , final Uri builtUri){
         new AsyncTask<Void, Void, String>() {
 
             @Override
@@ -53,11 +68,11 @@ public class AJAXhandler {
                 String result = null;
 
                 try {
-                    final String BASE_URL =
-                            "http://api.openweathermap.org/data/2.5/forecast/daily?";
-                    Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                            .appendQueryParameter("param", "value")
-                            .build();
+//                    final String BASE_URL =
+//                            "http://api.openweathermap.org/data/2.5/forecast/daily?";
+//                    Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+//                            .appendQueryParameter("param", "value")
+//                            .build();
 
                     URL url = new URL(builtUri.toString());
 
