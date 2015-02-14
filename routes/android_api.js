@@ -15,7 +15,7 @@ function isAuthenticated(req, res, next) {
 // Login
 router.post('/login/:phone/:/password', function(req, res){
 		Asha.findOne({phone: req.params.phone}, function(err, asha){
-			if (asha && (req.params.password === asha.password_hash)){
+			if (asha && (req.params.password === asha.password)){
 				req.session.user = user;
 				res.status(200).json({success: true});
 			} else {
@@ -46,8 +46,24 @@ router.get('/mothers', isAuthenticated, function(req, res){
 
 // Get mothers records
 router.get('/mothers/:phone', isAuthenticated, function(req, res){
-
+	Mother.find({phone: req.params.phone}, function(err, mother_records){
+		if (err){
+			res.status(500).json({success: false, error: "Could not retrieve mother data"});
+		} else {
+			res.status(200).json({success: true, records: mother_records});
+		}
+	});
 });
+
+router.post('/signup', function(req, res){
+	Asha.findOne({phone: phone}, function(err, asha){
+		if (asha){
+			res.status(500).json({success: false, error: "Asha already exists!"});
+		} else {
+			res.status(200).json({success:true});
+		} 
+	})
+})
 
 
 module.exports = router;
