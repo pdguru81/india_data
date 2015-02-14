@@ -11,7 +11,7 @@ var android_api = require('./routes/android_api');
 
 var mongoose = require('mongoose');
 var session = require('express-session');
-var mongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongo')(session);
 
 var app = express();
 
@@ -48,6 +48,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+
 app.use(session({
     secret: 'indian_asha',
     store: new MongoStore({
