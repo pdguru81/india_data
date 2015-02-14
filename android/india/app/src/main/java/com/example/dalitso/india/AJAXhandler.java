@@ -28,18 +28,42 @@ public class AJAXhandler {
 
         JSONObject data  = new JSONObject();
         try {
-            data.put("name", name);
-            data.put("number", number);
+              .appendQueryParameter("name", name)
+              .appendQueryParameter("phone", phone)
+              .appendQueryParameter("emergency_contact_phone", phone)
+              .build();
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    public void login (int number, String password){
+    public void login (int phonenumber, String password){
 
         JSONObject data  = new JSONObject();
         try {
             data.put("password", password);
-            data.put("number", number);
+            data.put("phone",phonenumber);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String BASE_URL =
+                "http://dalitsobanda.com/node";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter("password", password)
+                .appendQueryParameter("phone", phone)
+                .build();
+
+        sendJSONtoServer(data, builtUri);
+    }
+
+
+    public void ashaSignUp (int phonenumber, String password, String name, Strig hospital){
+
+        JSONObject data  = new JSONObject();
+        try {
+            data.put("password", password);
+            data.put("phone",phonenumber);
+            data.put("hospital",hospital);
+            data.put("name",name);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -47,6 +71,34 @@ public class AJAXhandler {
                 "http://dalitsobanda.com/node";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                 .appendQueryParameter("param", "value")
+                .appendQueryParameter("password", password);
+                .appendQueryParameter("phone",phonenumber);
+                .appendQueryParameter("hospital",hospital);
+                .appendQueryParameter("name",name);
+                .build();
+
+        sendJSONtoServer(data, builtUri);
+    }
+
+
+     public void createRecord (int mother_id, String asha_id, String mother_status, Strig baby_status){
+
+        JSONObject data  = new JSONObject();
+        try {
+            data.put("password", password);
+            data.put("phone",phonenumber);
+            data.put("hospital",hospital);
+            data.put("name",name);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String BASE_URL =
+                "http://dalitsobanda.com/node";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter("asha", asha_id)
+                .appendQueryParameter("mother_status",mother_status);
+                .appendQueryParameter("baby_status",baby_status);
+                .appendQueryParameter("name",name);
                 .build();
 
         sendJSONtoServer(data, builtUri);
