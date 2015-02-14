@@ -1,4 +1,4 @@
-ar express = require('express');
+var express = require('express');
 var router = express.Router();
 var asha =  require('./../model/asha');
 
@@ -26,7 +26,7 @@ var userExists = function(phonenumber,res,next){
 
 				var status = 400;
 				// ask the user to sign up
-				res.JSON({status:status, message:err, success:"false"})
+				res.send({status:status, message:err, success:"false"})
 			}
 		}
 	);
@@ -44,7 +44,7 @@ signup_methods.ashaSignUP =function(name, phone, hospital,res){
 
     	 var status = 400;
 
-    	 res.json({status:status,message:err,success:false});
+    	 res.send({status:status,message:err,success:false});
 
     }else{
     	// check the database if this user already exists
@@ -58,24 +58,28 @@ signup_methods.ashaSignUP =function(name, phone, hospital,res){
 
 				//create this user and add to database
 				var newAsha = new asha({
-					
+
 					name: name,
 
-					phone: phone
-
-					password_hash: 
+					phone: phone,
 
 					hospital: hospital
 				});
 			
-				newAsha.save();
+				newAsha.save(function(err,res){
+					if(!err){
+						var status = 200;
+						var message = "Successfully created user";
+						res.send({status:status,message:message, success:true})
+					}
+				});
 			}else{
 
 				var err = " A user with this phone number already exists";
 
 				var status = 400;
 				// ask the user to sign up
-				res.JSON({status:status, message:err, success:"false"})
+				res.send({status:status, message:err, success:"false"})
 			}
 		}
 	);
