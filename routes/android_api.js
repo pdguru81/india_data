@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Asha = require('./../model/asha');
 var Mother = require('./../model/mother');
+var Record = require('./../model/record');
+
 
 
 /// Authenticates the user and sends a response saying "No logged in user!" if no user is logged in.
@@ -45,8 +47,8 @@ router.get('/mothers', isAuthenticated, function(req, res){
 });
 
 // Get mothers records
-router.get('/mothers/:phone', isAuthenticated, function(req, res){
-	Mother.find({phone: req.params.phone}, function(err, mother_records){
+router.get('/mothers/:id', isAuthenticated, function(req, res){
+	Record.find({mother: req.params.id}, function(err, mother_records){
 		if (err){
 			res.status(500).json({success: false, error: "Could not retrieve mother data"});
 		} else {
@@ -59,6 +61,8 @@ router.post('/signup', function(req, res){
 	Asha.findOne({phone: phone}, function(err, asha){
 		if (asha){
 			res.status(500).json({success: false, error: "Asha already exists!"});
+		} else if (err) {
+			res.status(500).json({success: false, error: "Database error"});
 		} else {
 			res.status(200).json({success:true});
 		} 
