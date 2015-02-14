@@ -1,26 +1,36 @@
 var express = require('express');
 var router = express.Router();
 var asha =  require('./../model/asha');
-var mothers =  require('./../model/mother');
-
+var mothers = require("./../model/mother");
 
 
 var signup_methods = {};
 
 
-signup_methods.createMothers = function(name,phone,emergency_contact){
+//check that args are of none-zero length
+var checklength = function(){
+	for (var i = 0; i < arguments.length; i++) {
+    	if(arguments[i].length===0){
+    		return false;
+    	}
+  }
+
+  	return true;
+}
+
+signup_methods.createMothers = function(name,phone,emergency_contact_phone,res){
 	if (name===null ||typeof name==='undefined' || phone===null || 
 
-    	typeof phone ==="undefined" ||emergency_contact===null || typeof 
-    	emergency_contact==="undefined"){
+    	typeof phone ==="undefined" ||emergency_contact_phone===null || typeof 
+    	emergency_contact_phone==="undefined"){
 
-    	 var err= "Name or Phone or emergency_contact cannot be empty for Mothers.";
+    	 var err= "Name or Phone or emergency_contact_phone cannot be empty for Mothers.";
 
     	 var status = 400;
 
     	 res.send({status:status,message:err,success:false});
     }else{
-    	    	// check the database if this user already exists
+    	// check the database if this user already exists
     	mothers.count({phone:phone},
 
 			function(err,count){
@@ -28,36 +38,36 @@ signup_methods.createMothers = function(name,phone,emergency_contact){
 				if(count===0){
 
 					//create this user and add to database
-					var newAsha = new asha({
+					var mother = new mothers({
 
 						name: name,
 
 						phone: phone,
 
-						password:password,
+						emergency_contact_phone:emergency_contact_phone
 
-						hospital: hospital
 					});
 				
-					newAsha.save(function(err,response){
+					mother.save(function(err,response){
 						if(!err){
 							var sts = 200;
-							var msg = "Successfully created user";
+							var msg = "Successfully created a Mother Object";
 							res.send({status:sts,message:msg, success:true})
 						}
 					});
 				}else{
 
-					var err = " A user with this phone number already exists";
+					var err = " A mother with this phone number already exists";
 
 					var status = 400;
 					// ask the user to sign up
 					res.send({status:status, message:err, success:"false"})
 				}
 			}
-		);
+	);
 
     }
+
 
 }
 
@@ -104,7 +114,7 @@ signup_methods.ashaSignUP =function(name, phone, hospital,password, res){
 					});
 				}else{
 
-					var err = " A user with this phone number already exists";
+					var err = " An Asha with this phone number already exists";
 
 					var status = 400;
 					// ask the user to sign up
