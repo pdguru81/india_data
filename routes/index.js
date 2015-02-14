@@ -49,7 +49,7 @@ sendMessage('+16175105270','God is Good');
   res.send('<Response><Say>Hello there! Thanks for calling.</Say></Response>');
 });
 
-router.post('/ashas', function(req,res){
+router.post('//ashas', function(req,res){
   console.log('the call came here!');
   controller.ashaSignUP(req.body.name,req.body.phone, req.body.hospital, req.body.password,res);
 
