@@ -35,7 +35,7 @@ router.get('/logout', function(req,res){
 	}
 });
 
-// Get records
+// Get records of mothers under ashas care
 router.get('/mothers', isAuthenticated, function(req, res){
 		Asha.findOne({phone: req.session.user.phone}, function(err, asha){
 				Mother.find({asha: asha._id}, function(err, mothers){
@@ -50,11 +50,13 @@ router.get('/mothers', isAuthenticated, function(req, res){
 
 // Get mothers records
 router.get('/mothers/:id', isAuthenticated, function(req, res){
-	Record.find({mother: req.params.id}, function(err, mother_records){
+	Record.find({mother: req.params.id}).populate(['asha', 'mother']).exec(function(err, mother_records){
 		if (err){
 			res.status(500).json({success: false, error: "Could not retrieve mother data"});
 		} else {
-			res.status(200).json({success: true, records: mother_records});
+			var records = mother_records.map(formatAsha);
+			console.log("RECORDS: " + records);
+			res.status(200).json({success: true, records: records});
 		}
 	});
 });
@@ -62,36 +64,51 @@ router.get('/mothers/:id', isAuthenticated, function(req, res){
 // Create new record
 router.post('/records/:id', isAuthenticated, function(req, res){
 
-	Mother.findById(id, function(err, mother){
+	Mother.findById(req.params.id, function(err, mother){
 		if (err){
 			res.status(500).json({success: false, error: "Database error"});
 		} else if (mother) {
-			Asha.findOne({phone: req.session.phone}, function(err, asha){
+			Asha.findOne({phone: req.session.user.phone}, function(err, asha){
+				if (asha){
 					var record = new Record({
-						asha: asha.id,
-						mother: mother.id,
-						timestamp: new Date(),
-						mother_status: {},
-						baby_status: {},
-						is_confirmed: false
+							asha: asha._id,
+							mother: mother._id,
+							timestamp: new Date(),
+							mother_status: {},
+							baby_status: {},
+							is_confirmed: false
 					});
-					record.save(function(err, res){
-						if (!err){
-							res.status(200).json({success: true});
-						}
+					record.save(function(err, record){
+							if (!err){
+								res.status(200).json({success: true});
+							}
 					});
+				} else {
+					res.status(500).json({success: false, error: "Database error"});
+				}			
 			});
 		} else {
 			res.status(500).json({success: false, error: "Could not create record"});
 		}
 	})
-	
+});
 
 
-// Get records
 //router.post('/mothers', isAuthenticated, function(req, res){
-router.post('/mothers', function(req, res){
+router.post('/mothers', isAuthenticated, function(req, res){
 		controller.createMothers(req.body.name,req.body.phone,req.body.emergency_contact_phone,res);
 });
+
+// Helper functions
+
+var formatAsha = function(record){
+	record.asha = {
+		id: record.asha._id,
+		name: record.asha.name,
+		phone: record.asha.phone,
+		hospital: record.asha.hospital
+	}
+	return record;
+}
 
 module.exports = router;
