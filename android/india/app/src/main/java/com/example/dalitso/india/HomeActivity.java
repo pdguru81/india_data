@@ -193,7 +193,14 @@ public class HomeActivity extends ActionBarActivity
                 patientList.add("Kapaya Katongo");
                 patientList.add("Tawanda Zimuto");
                 patientList.add("Fidelis Chibombe");
-                patientList.add("Philip Abel");
+
+//                AJAXhandler AJX = new AJAXhandler(this);
+//                AJAXhandler.Login loginT = AJX.login(Integer.parseInt(phoneNumber), password);
+//                AJX.sendTask(loginT).execute();
+
+                AJAXhandler handler = new AJAXhandler(this);
+                AJAXhandler.getMothers getmothers = AJAXhandler.getMothers();
+                handler.sendTask(getmothers).execute()  ;
                 // set list adapter for patients
                 final ArrayAdapter<String> arrayAdapter =
                         new ArrayAdapter<String>(HomeActivity.this,android.R.layout.simple_list_item_1, patientList);

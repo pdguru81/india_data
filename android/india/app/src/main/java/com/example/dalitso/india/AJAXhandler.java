@@ -81,8 +81,6 @@ public class AJAXhandler {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
-
-
             if (result != null) {
 //                Context context = activity.getApplicationContext();
 //                CharSequence text = "login successful";
@@ -104,84 +102,115 @@ public class AJAXhandler {
     }
 
 
-//    public void login (int phonenumber, String password){
+
+
+//    public class ashaSignUp implements task (int phonenumber, String password, String name, String hospital){
 //
-//        JSONObject data  = new JSONObject();
-//        try {
-//            data.put("password", password);
-//            data.put("phone",phonenumber);
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
 //        final String BASE_URL =
-//                "http://dalitsobanda.com/node";
+//                "http://dalitsobanda.com/node/ashas";
 //        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+//
 //                .appendQueryParameter("password", password)
-//                .appendQueryParameter("phone", String.valueOf(phonenumber))
+//                .appendQueryParameter("phone",phonenumber+"")
+//                .appendQueryParameter("hospital",hospital)
+//                .appendQueryParameter("name",name)
 //                .build();
 //
-////        sendJSONtoServer(data, builtUri, "POST");
+////        sendJSONtoServer(data, builtUri);
 //    }
 
 
-    public void ashaSignUp (int phonenumber, String password, String name, String hospital){
 
-        JSONObject data  = new JSONObject();
-        try {
-            data.put("password", password);
-            data.put("phone",phonenumber);
-            data.put("hospital",hospital);
-            data.put("name",name);
-        } catch (JSONException e) {
-            e.printStackTrace();
+     public class createRecord  implements task{
+
+         Uri builtUri;
+
+        createRecord(String mother_id){
+            final String BASE_URL =
+                    "http://dalitsobanda.com/node//asha/records";
+            builtUri = Uri.parse(BASE_URL).buildUpon()
+                    .appendQueryParameter("mother",mother_id)
+                    .build();
         }
-        final String BASE_URL =
-                "http://dalitsobanda.com/node/ashas";
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
 
-                .appendQueryParameter("password", password)
-                .appendQueryParameter("phone",phonenumber+"")
-                .appendQueryParameter("hospital",hospital)
-                .appendQueryParameter("name",name)
-                .build();
+         @Override
+         public Uri getBuiltUri() {
+             return builtUri;
+         }
+
+         @Override
+         public String getMethod() {
+             return "POST";
+         }
+
+         @Override
+         public void response(String result) {
+
+         }
+
 
 //        sendJSONtoServer(data, builtUri);
     }
 
 
 
-     public void createRecord (String mother_id){
+    public class getMothers implements task{
+        Uri builtUri;
 
-        final String BASE_URL =
-                "http://dalitsobanda.com/node//asha/records";
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter("mother",mother_id)
-                .build();
+        getMothers(){
+            final String BASE_URL =
+                    "http://dalitsobanda.com/node//mothers";
+            builtUri = Uri.parse(BASE_URL).buildUpon()
+                    .build();
+        }
 
-//        sendJSONtoServer(data, builtUri);
+
+        @Override
+        public Uri getBuiltUri() {
+            return builtUri;
+        }
+
+        @Override
+        public String getMethod() {
+            return "GET";
+        }
+
+        @Override
+        public void response(String result) {
+
+        }
+
+        // sendJSONtoServer(data, builtUri);
     }
 
 
+    public class getMotherRecords implements  task{
+        Uri builtUri;
 
-    public void getMothers (){
+        getMotherRecords(String mother_id){
+            final String BASE_URL =
+                    "http://dalitsobanda.com/node//mothers";
+            builtUri = Uri.parse(BASE_URL).buildUpon()
+                    .appendQueryParameter("mother", mother_id)
+                    .build();
 
-        final String BASE_URL =
-                "http://dalitsobanda.com/node//mothers";
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .build();
+        }
 
-       // sendJSONtoServer(data, builtUri);
-    }
+        @Override
+        public Uri getBuiltUri() {
+            return builtUri;
+        }
 
+        @Override
+        public String getMethod() {
+            return "GET";
+        }
 
-    public void getMotherRecords (String mother_id){
+        @Override
+        public void response(String result) {
 
+        }
 
-        final String BASE_URL =
-                "http://dalitsobanda.com/node//mothers";
-        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter("mother", mother_id)
-                .build();
 
 //        sendJSONtoServer(data, builtUri);
     }
