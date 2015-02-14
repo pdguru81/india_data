@@ -5,34 +5,6 @@ var asha =  require('./../model/asha');
 
 var signup_methods = {};
 
-
-
-//checks if a user with this phone number already exists
-var userExists = function(phonenumber,res,next){
-
-	asha.count(
-
-		{phone:phonenumber},
-
-		function(err,count){
-
-			if(count==0){
-				//proceed
-				next();
-
-			}else{
-
-				var err = " A user with this phone number already exists";
-
-				var status = 400;
-				// ask the user to sign up
-				res.send({status:status, message:err, success:"false"})
-			}
-		}
-	);
-}
-
-
 //creates an asha and adds  them to the database
 signup_methods.ashaSignUP =function(name, phone, hospital,res){
 		
@@ -48,40 +20,38 @@ signup_methods.ashaSignUP =function(name, phone, hospital,res){
 
     }else{
     	// check the database if this user already exists
-    	asha.count(
+    	asha.count({phone:phone},
 
-		{phone:phone},
+			function(err,count){
 
-		function(err,count){
+				if(count===0){
 
-			if(count==0){
+					//create this user and add to database
+					var newAsha = new asha({
 
-				//create this user and add to database
-				var newAsha = new asha({
+						name: name,
 
-					name: name,
+						phone: phone,
 
-					phone: phone,
+						hospital: hospital
+					});
+				
+					newAsha.save(function(err,response){
+						if(!err){
+							var sts = 200;
+							var msg = "Successfully created user";
+							res.send({status:sts,message:msg, success:true})
+						}
+					});
+				}else{
 
-					hospital: hospital
-				});
-			
-				newAsha.save(function(err,res){
-					if(!err){
-						var status = 200;
-						var message = "Successfully created user";
-						res.send({status:status,message:message, success:true})
-					}
-				});
-			}else{
+					var err = " A user with this phone number already exists";
 
-				var err = " A user with this phone number already exists";
-
-				var status = 400;
-				// ask the user to sign up
-				res.send({status:status, message:err, success:"false"})
+					var status = 400;
+					// ask the user to sign up
+					res.send({status:status, message:err, success:"false"})
+				}
 			}
-		}
 	);
 
     }
