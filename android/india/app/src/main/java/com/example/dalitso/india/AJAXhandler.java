@@ -24,7 +24,15 @@ import java.net.URL;
  * Created by dalitso on 2/14/15.
  */
 public class AJAXhandler {
+
     Activity activity;
+
+    public void createMothers (View view) {
+        TextView Vname = (TextView) view.findViewById(R.id.newPatientName);
+        TextView Vnumber = (TextView) view.findViewById(R.id.newPatientNumber);
+        String name = (String) Vname.getText();
+        String number = (String) Vnumber.getText();
+    }
 
     AJAXhandler(Activity activity){
         this.activity =  activity;
@@ -129,11 +137,11 @@ public class AJAXhandler {
             e.printStackTrace();
         }
         final String BASE_URL =
-                "http://dalitsobanda.com/node";
+                "http://dalitsobanda.com/node/ashas";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter("param", "value")
+
                 .appendQueryParameter("password", password)
-                .appendQueryParameter("phone", phonenumber + "")
+                .appendQueryParameter("phone",phonenumber+"")
                 .appendQueryParameter("hospital",hospital)
                 .appendQueryParameter("name",name)
                 .build();
@@ -142,20 +150,42 @@ public class AJAXhandler {
     }
 
 
-     public void createRecord (int mother_id, String asha_id, String mother_status, String baby_status){
+
+     public void createRecord (String mother_id){
+
         final String BASE_URL =
-                "http://dalitsobanda.com/node";
+                "http://dalitsobanda.com/node//asha/records";
         Uri builtUri = Uri.parse(BASE_URL).buildUpon()
-                .appendQueryParameter("asha", asha_id)
-                .appendQueryParameter("mother_status", mother_status)
-                .appendQueryParameter("baby_status", baby_status)
-                .appendQueryParameter("name","")
+                .appendQueryParameter("mother",mother_id)
                 .build();
 
 //        sendJSONtoServer(data, builtUri);
     }
 
 
+
+    public void getMothers (){
+
+        final String BASE_URL =
+                "http://dalitsobanda.com/node//mothers";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .build();
+
+       // sendJSONtoServer(data, builtUri);
+    }
+
+
+    public void getMotherRecords (String mother_id){
+
+
+        final String BASE_URL =
+                "http://dalitsobanda.com/node//mothers";
+        Uri builtUri = Uri.parse(BASE_URL).buildUpon()
+                .appendQueryParameter("mother", mother_id)
+                .build();
+
+//        sendJSONtoServer(data, builtUri);
+    }
 
 
     public class aTask extends  AsyncTask<Void, Void, String> {
