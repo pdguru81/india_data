@@ -81,20 +81,19 @@ public class AJAXhandler {
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
-            ((LoginActivity) activity).showProgress(false);
-            Intent intent = new Intent(activity, HomeActivity.class);
-            activity.startActivity(intent);
+
 
             if (result != null) {
 //                Context context = activity.getApplicationContext();
 //                CharSequence text = "login successful";
 //                int duration = Toast.LENGTH_SHORT;
-
-//                Toast toast = Toast.makeText(context, text, duration);
                 toast.show();
-
-//                Intent intent = new Intent(activity, HomeActivity.class);
+//                Toast toast = Toast.makeText(context, text, duration);
+                ((LoginActivity) activity).showProgress(false);
+                Intent intent = new Intent(activity, HomeActivity.class);
                 activity.startActivity(intent);
+
+
 
                 //finish();
             } else {
