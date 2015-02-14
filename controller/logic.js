@@ -63,11 +63,11 @@ signup_methods.createMothers = function(name,phone,emergency_contact){
 
 //creates an asha and adds  them to the database
 signup_methods.ashaSignUP =function(name, phone, hospital,password, res){
-		
-    if (name===null ||typeof name==='undefined' || phone===null || 
+	
+    if (name === null || typeof name === 'undefined' || phone === null || 
 
-    	typeof phone ==="undefined" || password===null || typeof 
-    	password==="undefined"|| hospital===null|| typeof hospital==="undefined"){
+    	typeof phone === "undefined" || password === null || typeof 
+    	password === "undefined" || hospital === null || typeof hospital === "undefined"){
 
     	 var err= "Name or Phone or Hospital cannot be empty for Ashas.";
 
@@ -75,7 +75,7 @@ signup_methods.ashaSignUP =function(name, phone, hospital,password, res){
 
     	 res.send({status:status,message:err,success:false});
 
-    }else{
+    } else {
     	// check the database if this user already exists
     	asha.count({phone:phone},
 

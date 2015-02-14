@@ -15,10 +15,10 @@ function isAuthenticated(req, res, next) {
 };
 
 // Login
-router.post('/login/:phone/:/password', function(req, res){
-		Asha.findOne({phone: req.params.phone}, function(err, asha){
-			if (asha && (req.params.password === asha.password)){
-				req.session.user = user;
+router.post('/login', function(req, res){
+		Asha.findOne({phone: req.body.phone}, function(err, asha){
+			if (asha && (req.body.password === asha.password)){
+				req.session.user = asha;
 				res.status(200).json({success: true});
 			} else {
 				res.status(500).json({success:false, error: "Login failed. Please check your phone and/or password"})
@@ -55,6 +55,35 @@ router.get('/mothers/:id', isAuthenticated, function(req, res){
 			res.status(200).json({success: true, records: mother_records});
 		}
 	});
+});
+
+// Create new record
+router.post('/records/:id', isAuthenticated, function(req, res){
+
+	Mother.findById(id, function(err, mother){
+		if (err){
+			res.status(500).json({success: false, error: "Database error"});
+		} else if (mother) {
+			Asha.findOne({phone: req.session.phone}, function(err, asha){
+					var record = new Record({
+						asha: asha.id,
+						mother: mother.id,
+						timestamp: new Date(),
+						mother_status: {},
+						baby_status: {},
+						is_confirmed: false
+					});
+					record.save(function(err, res){
+						if (!err){
+							res.status(200).json({success: true});
+						}
+					});
+			});
+		} else {
+			res.status(500).json({success: false, error: "Could not create record"});
+		}
+	})
+	
 });
 
 module.exports = router;
