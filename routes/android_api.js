@@ -95,8 +95,9 @@ router.post('/records/:id', isAuthenticated, function(req, res){
 
 
 //router.post('/mothers', isAuthenticated, function(req, res){
-router.post('/mothers', isAuthenticated, function(req, res){
-		controller.createMothers(req.body.name,req.body.phone,req.body.emergency_contact_phone,res);
+router.post('/mothers',  function(req, res){
+		var asha_phone =req.session.user.phone;
+		controller.createMothers(asha_phone,req.body.name,req.body.phone,req.body.emergency_contact_phone,res);
 });
 
 // Helper functions

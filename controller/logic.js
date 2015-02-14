@@ -18,7 +18,8 @@ var checklength = function(){
   	return true;
 }
 
-signup_methods.createMothers = function(name,phone,emergency_contact_phone,res){
+signup_methods.createMothers = function(asha_phone,name,phone,emergency_contact_phone,res){
+	console.log("This is the asa phone: "+asha_phone);
 	if (name===null ||typeof name==='undefined' || phone===null || 
 
     	typeof phone ==="undefined" ||emergency_contact_phone===null || typeof 
@@ -37,24 +38,36 @@ signup_methods.createMothers = function(name,phone,emergency_contact_phone,res){
 
 				if(count===0){
 
-					//create this user and add to database
-					var mother = new mothers({
+					asha.findOne({phone: asha_phone}, function(err, asha){
 
-						name: name,
+						if (asha){
 
-						phone: phone,
+							//create this user and add to database
+							var mother = new mothers({
 
-						emergency_contact_phone:emergency_contact_phone
+								asha: asha._id,
 
+								name: name,
+
+								phone: phone,
+
+								emergency_contact_phone:emergency_contact_phone
+
+							});
+						
+							mother.save(function(err,response){
+								if(!err){
+									var sts = 200;
+									var msg = "Successfully created a Mother Object";
+									res.send({status:sts,message:msg, success:true})
+								}
+							});
+
+						} else {
+							res.status(500).json({success: false, error: "Database error"});
+						}			
 					});
-				
-					mother.save(function(err,response){
-						if(!err){
-							var sts = 200;
-							var msg = "Successfully created a Mother Object";
-							res.send({status:sts,message:msg, success:true})
-						}
-					});
+
 				}else{
 
 					var err = " A mother with this phone number already exists";

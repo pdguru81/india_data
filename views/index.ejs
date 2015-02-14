@@ -1,10 +1,45 @@
-<!DOCTYPE html>
+<!DOCTYPE>
 <html>
-	<head>
-		<link rel="stylesheet" type="text/css" href="/stylesheets/css/bootstrap-3.2.0-dist/css/bootstrap.min.css">
-		<title><%=title%></title>
-	</head>
-	<body>
-		Hello World!
-	</body>
+<head>
+<link rel="stylesheet" type="text/css" href="/stylesheets/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+<title><%=title%></title>
+</head>
+<body>
+
+<div class="container" id="fritter-body">
+	<div class="col-md-2 panel">
+		<div>
+		 <span>Your Profile</span>
+		</div>
+	</div>
+	<div class="col-md-8">
+		<div class="col-md-3"></div>
+		<div class="col-md-6">
+
+			<div class="row" id="data">
+				<form role="form" action= "/ashas" method="post" id="post-form">
+						 <label>
+						        Please Enter the Name of Asha
+						        <input class="input-form" id="name" required="true" name="name" type="text" />
+						    </label>
+						    <label>
+						        Please Enter the Phone number of Asha
+						        <input id="phone" class="input-form" required="true"  name="phone" type="text" />
+						    </label>
+						   
+					<div class="form-group"> 
+						<input type="submit" id="" class="btn btn-primary" value="Save">
+					</div>
+				</form>
+			
+			</div>
+		</div>
+		<div class="col-md-3"></div>
+	</div>
+	
+	<div class="col-md-2 ">
+	</div>
+</div>
+</body>
 </html>
