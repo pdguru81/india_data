@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+
 var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 
@@ -11,17 +12,34 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var android_api = require('./routes/android_api');
 
+var mongoose = require('mongoose');
+var session = require('express-session');
+var mongoStore = require('connect-mongo')(session);
+
 var app = express();
+
+
+mongoose.connect('mongodb://localhost/udapradesh_pregnancy_data');
+var db = mongoose.connection;
+db.on('error',function(){
+    console.log("Connection to database failed");
+});
+db.on('open',function(){
+    console.log("Successfully connected!");
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(cookieParser());
 app.use(session({
     secret: 'indian_asha',
