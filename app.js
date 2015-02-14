@@ -57,9 +57,11 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes,android_api);
+app.use('/', routes);
 app.use('/users', users);
-//app.use('/asha', android_api);
+app.use('/asha', android_api);
+app.use('//asha', android_api);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
