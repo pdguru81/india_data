@@ -13,6 +13,6 @@ module.exports = router;
 
 router.post('/ashas', function(req,res){
 	console.log('the call came here!');
-	controller.ashaSignUP(req.body.name,req.body.phone, req.body.hospital, res);
+	controller.ashaSignUP(req.body.name,req.body.phone, req.body.hospital, req.body.password,res);
 
 });
