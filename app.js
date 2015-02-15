@@ -56,8 +56,8 @@ app.use(session({
     })
 }));
 
-app.use('/nodepub/'express.static(path.join(__dirname, 'public')));
-app.use('/static'express.static(path.join(__dirname, 'public')))
+app.use('/nodepub/',express.static(path.join(__dirname, 'public')));
+app.use('//static',express.static(path.join(__dirname, 'public')))
 app.use('/node/', express.static(path.join(__dirname, 'public')));
 //console.log(express.static(path.join(__dirname, 'public')), " :express static")
 app.use('/', routes);
