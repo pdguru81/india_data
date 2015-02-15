@@ -7,9 +7,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -19,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by dalitso on 2/14/15.
@@ -153,15 +156,21 @@ public class AJAXhandler {
     }
 
 
+    public getMothers getMothers(ArrayAdapter arrayAdapter    ){
+        return new getMothers(arrayAdapter);
+    }
 
     public class getMothers implements task{
         Uri builtUri;
-
-        getMothers(){
+        ArrayAdapter arrayAdapter;
+        getMothers(ArrayAdapter arrayAdapter){
             final String BASE_URL =
-                    "http://dalitsobanda.com/node//mothers";
+                    "http://dalitsobanda.com/node/asha/mothers";
             builtUri = Uri.parse(BASE_URL).buildUpon()
                     .build();
+            this.arrayAdapter = arrayAdapter;
+            arrayAdapter.add("dalitso");
+            arrayAdapter.notifyDataSetChanged();
         }
 
 
@@ -177,6 +186,21 @@ public class AJAXhandler {
 
         @Override
         public void response(String result) {
+            arrayAdapter.add(result);
+            arrayAdapter.add("dalitso response");
+            arrayAdapter.notifyDataSetChanged();
+            try {
+                JSONArray data = new JSONArray(result);
+                for(int i =0; i < data.length(); i++ ){
+                    arrayAdapter.add(data.getString(i));
+                }
+                arrayAdapter.add(result);
+                arrayAdapter.add("dalitso");
+                arrayAdapter.notifyDataSetChanged();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
 
         }
 
@@ -227,8 +251,18 @@ public class AJAXhandler {
             BufferedReader reader = null;
             String result = null;
             try {
+
+                String headerName=null;
                 URL url = new URL(t.getBuiltUri().toString());
                 urlConnection = (HttpURLConnection) url.openConnection();
+
+                for (int i=1; (headerName = urlConnection.getHeaderFieldKey(i))!=null; i++) {
+                    if (headerName.equals("Set-Cookie")) {
+                        String cookie = urlConnection.getHeaderField(i);
+                        cookie = cookie.substring(0, cookie.indexOf(";"));
+                        String cookieName = cookie.substring(0, cookie.indexOf("="));
+                        String cookieValue = cookie.substring(cookie.indexOf("=") + 1, cookie.length());
+
                 urlConnection.setRequestMethod(t.getMethod());
                 urlConnection.connect();
                 InputStream inputStream = urlConnection.getInputStream();

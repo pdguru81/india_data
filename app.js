@@ -56,10 +56,10 @@ app.use(session({
     })
 }));
 app.use(express.static(path.join(__dirname, 'public')));
-
+console.log(express.static(path.join(__dirname, 'public')), " :express static")
 app.use('/', routes);
 app.use('/users', users);
-app.use('/asha', android_api);
+//app.use('/asha', android_api);
 app.use('//asha', android_api);
 
 
